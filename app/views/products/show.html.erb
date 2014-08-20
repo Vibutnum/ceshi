@@ -1,0 +1,30 @@
+<ol class="breadcrumb">
+  <li><a href="/">商品列表</a></li>
+  <li class="active"><%= @product.name %></li>
+</ol>
+<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-xs-6 col-md-4">
+    <a href="http://i0.ihaveu.com/<%=@product.show_large_img%>" class="thumbnail">
+      <img src="http://i0.ihaveu.com/<%=@product.show_large_img%>"/>
+    </a>
+  </div>
+  
+  <div class="size top">
+   <p><a href="/?check%5Bcategory1_name%5D=category1_name&where%5Bcategory1_name%5D=<%= @product.category1_name %>"><%= @product.category1_name %></a></p>
+  </div>
+
+  <div class="size">
+    <p><a href="/?check%5Bcategory1_name%5D=category1_name&where%5Bcategory1_name%5D=<%= @product.category1_name %>&check%5Bcategory2_name%5D=category2_name&where%5Bcategory2_name%5D=<%= @product.category2_name %>"><%= @product.category2_name %></a><p>
+  </div>
+
+  <div class="size">
+    <p><%= number_to_currency(@product.price, :unit=>"￥") %><p>
+  </div>
+
+  <p><%= submit_tag "添加到购物车", :class => "btn btn-primary btn-lg offset" %></p>
+
+  <div class="size">
+    <p><a href="/?check%5Bcategory1_name%5D=category1_name&where%5Bcategory1_name%5D=<%= @product.category1_name %>&check%5Bcategory2_name%5D=category2_name&where%5Bcategory2_name%5D=<%= @product.category2_name %>&check%5Bcolor%5D=color&where%5Bcolor%5D=<%= @product.color %>&check%5Btarget%5D=target&where%5Btarget%5D=<%= @product.target %>">相似的物品</a></p>
+  </div>
+</div>

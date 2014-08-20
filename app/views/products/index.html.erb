@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-1">
+    <!-- 搜索表单 -->
+    <%= form_for('products', method: "GET") do |f|%>
+
+      <%= check_box_tag "check[category1_name]", "category1_name", (@check.present? && @check[:category1_name] != "category1_name") ? false : true %>一级分类
+      <%= select_tag "where[category1_name]", options_for_select(@category1_name.collect{ |i| [i.category1_name, i.category1_name]}, (@where.present?) ? @where[:category1_name] : ''), :class =>"form-control" %>
+
+      <%= check_box_tag "check[category2_name]", "category2_name", (@check.present? && @check[:category2_name] != "category2_name") ? false : true %>二级分类
+      <%= select_tag "where[category2_name]", options_for_select(@category2_name.collect{ |i| [i.category2_name, i.category2_name]}, (@where.present?) ? @where[:category2_name] : ''), :class =>"form-control" %>
+
+      <%= check_box_tag "check[brand]", "brand",  (@check.present? && @check[:brand] != "brand") ? false : true %>品牌
+      <%= select_tag "where[brand]", options_for_select(@brand.collect{ |i| [i.brand, i.brand]}, (@where.present?) ? @where[:brand] : '' ), :class =>"form-control" %>
+
+      <%= check_box_tag "check[color]", "color", (@check.present? && @check[:color] != "color") ? false : true %>颜色
+      <%= select_tag "where[color]", options_for_select(@color.collect{ |i| [i.color, i.color]}, (@where.present?) ? @where[:color] : ''), :class =>"form-control" %>
+
+      <%= check_box_tag "check[target]", "target", (@check.present? && @check[:target] != "target") ? false : true %>性别
+      <%= select_tag "where[target]", options_for_select(@target.collect{ |i| [i.target, i.target]}, (@where.present?) ? @where[:target] : ''), :class =>"form-control" %>
+
+      <%= check_box_tag "check[price]", "price", (@check.present? && @check[:price] != "price") ? false : true %>价格
+      <%= select_tag "where[price]", options_for_select([["0-五千", "0,5000"], ["5千-1万", "5000,10000"], ["1万-5万", "10000,50000"], ["5万-10万", "50000,100000"], ["10万以上", "100000,1000000"] ], (@where.present? ) ? @where[:price] : '' ), :class =>"form-control" %>
+
+      <%= submit_tag "搜索", :class => "btn btn-primary offset" %> 
+    <% end %>
+  </div>
+  <!-- 商品列表 -->
+  <div class="col-md-10 col-md-offset-1">
+    <table class="table table-hover table table-bordered">
+      <tr>
+        <th>编号</th>
+        <th width = 110>名称</th>
+        <th>图片</th>
+        <% if params[:sort].present? && params[:sort][:price] == "up" %>
+          <th><%= link_to "价格", products_path(:where => params[:where], :check => params[:check], :sort => {:price => "down"})%></th>
+        <% else %>
+          <th><%= link_to "价格", products_path(:where => params[:where], :check => params[:check], :sort => {:price => "up"})%></th>
+        <% end %>
+        <th>上架时间</th>
+        <th>一级分类</th>
+        <th>二级分类</th>
+        <th width = 80>品牌</th>
+        <th>颜色</th>
+        <th>性别</th>
+      </tr>
+
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.id%></td>
+          <td><%=link_to product.name, product %></td>
+          <td>
+            <a href="/products/<%= product.id %>">
+              <img src="http://i0.ihaveu.com/<%=product.image_url%>"/>
+            </a>
+          </td>
+          <td><%= number_to_currency(product.price, :unit=>"￥") %></td>
+          <td><%= product.created_at.localtime.to_s(:db) %></td>
+          <td><%= product.category1_name %></td>
+          <td><%= product.category2_name %></td>
+          <td><%= product.brand %></td>
+          <td><%= product.color %></td>
+          <td><%= product.target %></td>
+        </tr>
+      <% end %>
+    </table>
+    <%= will_paginate @products, :previous_label => '上一页'.html_safe, :next_label => '下一页'.html_safe %>
+  </div>
+</div>

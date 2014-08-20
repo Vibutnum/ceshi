@@ -1,0 +1,47 @@
+      <label><input name= "check[category1_name]" type= "checkbox" value="category1_name" <%= "checked=checked" if @check.present? && @check[:category1_name] == "category1_name" %>/>一级分类</label>
+         <!-- html搜索表单  -->
+      <select  name="where[category1_name]" class= "form-control " style='margin-top: 5px;'>
+        <option value>一级分类</option>
+        <% Product.select("category1_name").group("category1_name").each do |i| %>
+          <option value="<%= i.category1_name %>" <%= "selected=selected" if @where.present? && @where[:category1_name] == i. category1_name %>><%= i.category1_name %></option>
+        <% end %>
+      </select> 
+      
+      <!-- 复选框 -->
+      <select name="where[category2_name]" class= "form-control" style='margin-top: 50px;'>
+        <option value>二级分类</option>
+      <!-- 搜索表单-->
+      <% Product.select("category2_name").group("category2_name").each do |e| %>
+          <option value="<%= e.category2_name %>" <%= "selected=selected" if @where.present? && @where[:category2_name] == e. category2_name %>><%= e.category2_name %></option>
+        <% end %>
+      </select>
+
+      <select name="where[price]" class= "form-control" style='margin-top: 50px;'>
+        <option value>价格</option>
+        <option value="0,5000" <%= "selected=selected" if @where.present? && @where[:price] == "0,5000" %>>0-5千</option>
+        <option value="5000,10000" <%= "selected=selected" if @where.present? && @where[:price] == "5000,10000" %>>5千-1万</option>
+        <option value="10000,50000" <%= "selected=selected" if @where.present? && @where[:price] == "10000,50000" %>>1万-5万</option>
+        <option value="50000,100000" <%= "selected=selected" if @where.present? && @where[:price] == "50000,100000" %>>5万-10万</option>
+        <option value="100000,10000000" <%= "selected=selected" if @where.present? && @where[:price] == "100000,10000000" %>>10万以上</option>
+      </select>
+
+      <select name="where[brand]" class= "form-control" >
+        <option value>品牌</option>
+        <% Product.select("brand").group("brand").each do |f| %>
+          <option value="<%= f.brand %>" <%= "selected=selected" if @where.present? && @where[:brand] == f. brand %>><%= f.brand %></option>
+        <% end %>
+      </select>
+
+      <select name="where[color]" class= "form-control" style='margin-top: 50px;'>
+        <option value>颜色</option>
+        <% Product.select("color").group("color").each do |h| %>
+          <option value="<%= h.color %>" <%= "selected=selected" if @where.present? && @where[:color] == h. color %>><%= h.color %></option>
+        <% end %>
+      </select>
+  
+      <select name="where[target]" class= "form-control" style='margin-top: 50px;'>
+        <option value>性别</option>
+         <% Product.select("target").group("target").each do |a| %>
+          <option value="<%= a.target %>" <%= "selected=selected" if @where.present? && @where[:target] == a. target %>><%= a.target %></option>
+        <% end %>
+      </select>
